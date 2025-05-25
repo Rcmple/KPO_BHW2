@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_container
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: reportuser
+      POSTGRES_PASSWORD: hagsfdha
+      POSTGRES_DB: reportdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db_init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - backend_net 
+
+  apigateway:
+    build: ./HW_2_ApiGateWay
+    container_name: apigateway_container
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    networks:
+      - backend_net
+
+  storing:
+    build: ./HW_2_Storing
+    container_name: storing_container
+    restart: unless-stopped
+    volumes:
+      - ./HW_2_Storing/uploaded_files:/app/uploaded_files
+    ports:
+      - "5001:5001"
+    depends_on:
+      - postgres
+    networks:
+      - backend_net
+
+  analysis:
+    build: ./HW_2_Analysis
+    container_name: analysis_container
+    restart: unless-stopped
+    volumes:
+      - ./HW_2_Storing/uploaded_files:/app/uploaded_files
+    ports:
+      - "5002:5002"
+    depends_on:
+      - postgres
+    networks:
+      - backend_net
+
+volumes:
+  pgdata:
+
+networks:
+  backend_net:
+    driver: bridge
