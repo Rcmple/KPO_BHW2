@@ -34,6 +34,7 @@
 ```bash
 unzip project.zip -d tmp_project
 cd tmp_project
+cd project
 ```
 2. Убедитесь, что у вас установлен Docker и Docker Compose.
 
