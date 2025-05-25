@@ -28,7 +28,8 @@
 
 1. Распакуйте архив проекта:
 
-git clone https://github.com/Rcmple/KPO_BHW2.git
+ - git clone https://github.com/Rcmple/KPO_BHW2.git
+ - cd KPO_BHW2/
 
 ```bash
 unzip project.zip -d tmp_project
